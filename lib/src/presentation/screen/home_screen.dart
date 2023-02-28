@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workout_flutter_app/core/app_extension.dart';
+import 'package:workout_flutter_app/src/business_logic/cubit/workout/workout_cubits.dart';
 
 import '../../../core/app_style.dart';
-import '../../business_logic/cubit/workout/workouts_cubit.dart';
+import '../../business_logic/cubit/workouts/workouts_cubit.dart';
 import '../../data/model/workout_model.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,19 +19,21 @@ class HomeScreen extends StatelessWidget {
           style: h2Style,
         ),
       ),
-      body:
-          SingleChildScrollView(child: BlocBuilder<WorkoutCubit, List<Workout>>(
-        builder: (context, workouts) {
+      body: SingleChildScrollView(
+          child: BlocBuilder<WorkoutsCubit, List<Workout>>(
+        builder: (context, workout) {
           return ExpansionPanelList.radio(
-            children: workouts
+            children: workout
                 .map(
                   (workouts) => ExpansionPanelRadio(
                     value: workouts,
-                    headerBuilder: (context, isExpanded) => ListTile(
+                    headerBuilder: (ctx, isExpanded) => ListTile(
                       onTap: null,
-                      leading: const IconButton(
-                        onPressed: null,
-                        icon: Icon(Icons.edit),
+                      leading: IconButton(
+                        onPressed: () => BlocProvider.of<WorkoutCubit>(context)
+                            .editWorkouts(
+                                workouts, (workout).indexOf(workouts)),
+                        icon: const Icon(Icons.edit),
                       ),
                       visualDensity: const VisualDensity(
                         horizontal: 0,
@@ -48,15 +51,22 @@ class HomeScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) => ListTile(
                         onTap: null,
-                        leading: const Text("00:23"),
+                        leading: IconButton(
+                          onPressed: null,
+                          icon: Text(
+                            formatTime(
+                                workouts.exercises[index].prelude!, true),
+                            textAlign: TextAlign.end,
+                          ).fadeAnimation(0.2),
+                        ),
                         visualDensity: const VisualDensity(
                           horizontal: 0,
                           vertical: VisualDensity.maximumDensity,
                         ),
                         title: Text(workouts.exercises[index].title!),
-                        trailing: const IconButton(
-                          onPressed: null,
-                          icon: Icon(Icons.star),
+                        trailing: Text(
+                          formatTime(workouts.exercises[index].duration!, true),
+                          textAlign: TextAlign.center,
                         ).fadeAnimation(0.2),
                       ),
                     ),

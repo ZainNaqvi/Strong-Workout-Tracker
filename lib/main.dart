@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workout_flutter_app/core/app_theme.dart';
-import 'package:workout_flutter_app/src/business_logic/cubit/workout/workouts_cubit.dart';
+import 'package:workout_flutter_app/src/business_logic/cubit/workout/workout_cubits.dart';
+import 'package:workout_flutter_app/src/business_logic/cubit/workout/workout_state.dart';
+import 'package:workout_flutter_app/src/business_logic/cubit/workouts/workouts_cubit.dart';
 import 'package:workout_flutter_app/src/presentation/screen/home_screen.dart';
+
+import 'src/presentation/screen/edit_workout_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,15 +20,31 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: BlocProvider<WorkoutCubit>(
-        create: (context) {
-          WorkoutCubit workoutCubit = WorkoutCubit();
-          if (workoutCubit.state.isEmpty) {
-            workoutCubit.loadWorkout();
-          }
-          return workoutCubit;
-        },
-        child: const HomeScreen(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<WorkoutsCubit>(
+            create: (context) {
+              WorkoutsCubit workoutCubit = WorkoutsCubit();
+              if (workoutCubit.state.isEmpty) {
+                workoutCubit.loadWorkout();
+              }
+              return workoutCubit;
+            },
+          ),
+          BlocProvider(
+            create: (context) => WorkoutCubit(),
+          ),
+        ],
+        child: BlocBuilder<WorkoutCubit, WorkoutState>(
+          builder: (context, state) {
+            if (state is WorkoutInitial) {
+              return const HomeScreen();
+            } else if (state is WorkoutEdit) {
+              return const EditWorkoutScreen();
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }

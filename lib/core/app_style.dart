@@ -31,8 +31,8 @@ const h4Style = TextStyle(
 
 const h5Style = TextStyle(
   fontFamily: "Poppins",
-  fontSize: 20,
-  fontWeight: FontWeight.w300,
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
   color: Colors.black,
 );
 
