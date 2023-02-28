@@ -63,7 +63,8 @@ class HomeScreen extends StatelessWidget {
                           horizontal: 0,
                           vertical: VisualDensity.maximumDensity,
                         ),
-                        title: Text(workouts.exercises[index].title!),
+                        title: Text(workouts.exercises[index].title!)
+                            .fadeAnimation(0.2),
                         trailing: Text(
                           formatTime(workouts.exercises[index].duration!, true),
                           textAlign: TextAlign.center,
