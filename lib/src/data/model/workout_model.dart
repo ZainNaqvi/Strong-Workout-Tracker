@@ -28,6 +28,9 @@ class Workout extends Equatable {
     };
   }
 
+  Workout copyWith({String? title}) =>
+      Workout(title: title ?? this.title, exercises: exercises);
+
   int getTotalTime() {
     int time =
         exercises.fold(0, (prev, ex) => prev + ex.duration! + ex.prelude!);

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:workout_flutter_app/core/app_extension.dart';
 import 'package:workout_flutter_app/core/app_style.dart';
 import 'package:workout_flutter_app/src/business_logic/cubit/workout/workout_state.dart';
 import 'package:workout_flutter_app/src/data/model/exercise_model.dart';
+import 'package:workout_flutter_app/src/data/model/workout_model.dart';
 
 import '../../business_logic/cubit/workout/workout_cubits.dart';
+import '../../business_logic/cubit/workouts/workouts_cubit.dart';
 import 'exercise_editing_screen.dart';
 
 class EditWorkoutScreen extends StatelessWidget {
@@ -23,9 +26,44 @@ class EditWorkoutScreen extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(
-              title: const Text(
-                "Exercises",
-                style: h2Style,
+              title: InkWell(
+                onLongPress: () async {
+                  TextEditingController controller = TextEditingController(
+                    text: we.workout!.title,
+                  );
+
+                  return (await showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      content: TextField(
+                        controller: controller,
+                        decoration:
+                            const InputDecoration(labelText: 'Workout Title'),
+                        keyboardType: TextInputType.text,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            if (controller.text.isNotEmpty) {
+                              Navigator.pop(context);
+                              Workout newWorkout =
+                                  we.workout!.copyWith(title: controller.text);
+                              BlocProvider.of<WorkoutsCubit>(context)
+                                  .saveWorkout(newWorkout, we.index);
+                              BlocProvider.of<WorkoutCubit>(context)
+                                  .editWorkouts(newWorkout, we.index);
+                            }
+                          },
+                          child: const Text('rename'),
+                        )
+                      ],
+                    ),
+                  ));
+                },
+                child: Text(
+                  we.workout!.title!,
+                  style: h2Style,
+                ),
               ),
               leading: BackButton(
                   color: Colors.white,
