@@ -8,7 +8,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColor.lightBlack,
       elevation: 0,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             if (state is WorkoutInitial) {
               return const HomeScreen();
-            } else if (state is WorkoutEdit) {
+            } else if (state is WorkoutEditing) {
               return const EditWorkoutScreen();
             }
             return Container();
