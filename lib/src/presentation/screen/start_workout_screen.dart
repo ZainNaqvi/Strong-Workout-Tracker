@@ -34,6 +34,7 @@ class StartWorkout extends StatelessWidget {
         "workoutElapsed": workoutElapsed,
         "totalExercises": workout.exercises.length,
         "currentExerciseIndex": exercise.index!.toDouble(),
+        "exerciseIndex": exercise.index!,
         "workoutRemaining": workoutTotal - workoutElapsed,
         "exerciseRemaining": exerciseRenaming,
         "exerciseProgress": exerciseElapsed / exerciseTotal,
@@ -81,6 +82,13 @@ class StartWorkout extends StatelessWidget {
                 ),
                 const Spacer(),
                 InkWell(
+                  onTap: () {
+                    if (state is WorkoutInProgress) {
+                      BlocProvider.of<WorkoutCubit>(context).pauseWorkout();
+                    } else if (state is WorkoutPaused) {
+                      BlocProvider.of<WorkoutCubit>(context).resumeWorkout();
+                    }
+                  },
                   child: Stack(
                     alignment: const Alignment(0, 0),
                     children: [
@@ -106,6 +114,13 @@ class StartWorkout extends StatelessWidget {
                             )),
                       ),
                     ],
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Text(state.workout!.exercises[stats['exerciseIndex']]
+                        .toString()),
                   ),
                 ),
               ],
