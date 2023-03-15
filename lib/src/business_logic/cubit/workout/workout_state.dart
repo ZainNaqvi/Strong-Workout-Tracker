@@ -23,3 +23,11 @@ class WorkoutEditing extends WorkoutState {
   @override
   List<Object?> get props => [workout, index, exIndex];
 }
+
+class WorkoutInProgress extends WorkoutState {
+  const WorkoutInProgress(Workout? workout, int? elapsed)
+      : super(workout, elapsed);
+
+  @override
+  List<Object?> get props => [workout, elapsed];
+}

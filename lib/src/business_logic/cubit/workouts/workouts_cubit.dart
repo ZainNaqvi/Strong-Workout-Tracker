@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:workout_flutter_app/core/app_asset.dart';
 import 'package:workout_flutter_app/src/data/model/exercise_model.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:workout_flutter_app/core/app_theme.dart';
 import 'package:workout_flutter_app/src/business_logic/cubit/workout/workout_cubits.dart';
 import 'package:workout_flutter_app/src/business_logic/cubit/workout/workout_state.dart';
@@ -8,7 +10,11 @@ import 'package:workout_flutter_app/src/presentation/screen/home_screen.dart';
 
 import 'src/presentation/screen/edit_workout_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getApplicationDocumentsDirectory(),
+  );
   runApp(const MyApp());
 }
 
