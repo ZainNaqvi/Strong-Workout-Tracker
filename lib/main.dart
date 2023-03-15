@@ -9,6 +9,7 @@ import 'package:workout_flutter_app/src/business_logic/cubit/workouts/workouts_c
 import 'package:workout_flutter_app/src/presentation/screen/home_screen.dart';
 
 import 'src/presentation/screen/edit_workout_screen.dart';
+import 'src/presentation/screen/start_workout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             } else if (state is WorkoutEditing) {
               return const EditWorkoutScreen();
             }
-            return Container();
+            return const StartWorkout();
           },
         ),
       ),

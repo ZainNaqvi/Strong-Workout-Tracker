@@ -28,7 +28,10 @@ class HomeScreen extends StatelessWidget {
                   (workouts) => ExpansionPanelRadio(
                     value: workouts,
                     headerBuilder: (ctx, isExpanded) => ListTile(
-                      onTap: null,
+                      onTap: () => !isExpanded
+                          ? BlocProvider.of<WorkoutCubit>(context)
+                              .startWorkout(workouts)
+                          : null,
                       leading: IconButton(
                         onPressed: () => BlocProvider.of<WorkoutCubit>(context)
                             .editWorkouts(
